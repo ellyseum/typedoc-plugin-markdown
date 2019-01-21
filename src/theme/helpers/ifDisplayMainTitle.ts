@@ -6,9 +6,13 @@ import { getMarkdownEngine } from '../utils';
  * @param opts
  */
 export function ifDisplayMainTitle(item: any, opts: any) {
-  if (getMarkdownEngine() === 'gitbook' || item.model.displayReadme) {
-    return opts.inverse(this);
-  } else {
-    return opts.fn(this);
-  }
+    if (
+        getMarkdownEngine() === 'gitbook' ||
+        item.model.displayReadme ||
+        (getMarkdownEngine() === 'githubWiki' && !item.model.isIndex)
+    ) {
+        return opts.inverse(this);
+    } else {
+        return opts.fn(this);
+    }
 }

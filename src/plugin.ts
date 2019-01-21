@@ -1,7 +1,9 @@
+import * as fs from 'fs-extra';
 import * as path from 'path';
 import { Component, ConverterComponent } from 'typedoc/dist/lib/converter/components';
 import { Context } from 'typedoc/dist/lib/converter/context';
 import { Converter } from 'typedoc/dist/lib/converter/converter';
+import { DeclarationReflection } from 'typedoc/dist/lib/models';
 import { Reflection } from 'typedoc/dist/lib/models/reflections/abstract';
 import { PageEvent } from 'typedoc/dist/lib/output/events';
 import { OptionsReadMode } from 'typedoc/dist/lib/utils/options';
@@ -12,54 +14,78 @@ import { MarkdownTheme } from './theme/';
  */
 @Component({ name: 'markdown' })
 export class MarkdownPlugin extends ConverterComponent {
-  // listen to event on initialisation
-  public initialize() {
-    this.listenTo(this.owner, {
-      [Converter.EVENT_RESOLVE_BEGIN]: this.onBegin,
-    });
-    this.listenTo(this.application.renderer, {
-      [PageEvent.END]: this.onPageEnd,
-    });
-  }
-
-  /**
-   * * Triggered when the converter begins converting a project.
-   */
-  private onBegin(context: Context, reflection: Reflection) {
-    // renderer
-    const renderer = this.application.renderer;
-
-    // store options
-    const options = this.application.options;
-    options.read({}, OptionsReadMode.Prefetch);
-
-    // assign the theme
-    const themeName = options.getValue('theme');
-    const themePath = this.getThemeDirectory();
-
-    // apply the theme
-    if (themeName === 'markdown') {
-      const markdownTheme = new MarkdownTheme(
-        renderer,
-        themePath,
-        options.getRawValues(),
-      );
-      renderer.theme = renderer.addComponent('theme', markdownTheme);
+    // listen to event on initialisation
+    public initialize() {
+        this.listenTo(this.owner, {
+            [Converter.EVENT_RESOLVE_BEGIN]: this.onBegin,
+        });
+        this.listenTo(this.application.renderer, {
+            [PageEvent.END]: this.onPageEnd,
+        });
     }
-  }
 
-  /**
-   * Triggered after a document has been rendered, just before it is written to disc.
-   * Remove duplicate lines to tidy up output
-   */
-  private onPageEnd(page: PageEvent) {
-    page.contents = page.contents ? page.contents.replace(/\n{3,}/g, '\n\n') : '';
-  }
+    /**
+     * * Triggered when the converter begins converting a project.
+     */
+    private onBegin(context: Context, reflection: Reflection) {
+        // renderer
+        const renderer = this.application.renderer;
 
-  /**
-   * Returns the theme directory
-   */
-  private getThemeDirectory() {
-    return path.join(__dirname, './theme/');
-  }
+        // store options
+        const options = this.application.options;
+        options.read({}, OptionsReadMode.Prefetch);
+
+        // assign the theme
+        const themeName = options.getValue('theme');
+        const themePath = this.getThemeDirectory();
+
+        // apply the theme
+        if (themeName === 'markdown') {
+            const markdownTheme = new MarkdownTheme(
+                renderer,
+                themePath,
+                options.getRawValues(),
+            );
+            renderer.theme = renderer.addComponent('theme', markdownTheme);
+        }
+    }
+
+    /**
+     * Triggered after a document has been rendered, just before it is written to disc.
+     * Remove duplicate lines to tidy up output
+     */
+    private onPageEnd(page: PageEvent) {
+        page.contents = page.contents ? page.contents.replace(/\n{3,}/g, '\n\n') : '';
+
+        function replacer(key: any, value: any) {
+            if (
+                key === 'parent' ||
+                key === 'reflection' ||
+                key === 'reflections' ||
+                key === 'symbolMapping' ||
+                key === 'file' ||
+                key === 'cssClasses' ||
+                key === '_alias' ||
+                key === '_aliases'
+            ) {
+                return null;
+            }
+            return value;
+        }
+
+        const model: DeclarationReflection = page.model;
+        //  if (getMarkdownEngine() === 'githubWiki') {
+        fs.writeFileSync(
+            `./test/out/${model.name}.json`,
+            JSON.stringify(model, replacer),
+        );
+        // }
+    }
+
+    /**
+     * Returns the theme directory
+     */
+    private getThemeDirectory() {
+        return path.join(__dirname, './theme/');
+    }
 }

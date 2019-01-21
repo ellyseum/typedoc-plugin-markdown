@@ -7,7 +7,7 @@
 
 {{#each children}}
 {{#ifDisplayIndexItem this }}
-* [{{{name}}}]({{relativeURL url}})
+* [{{{name}}}]({{relativeURL (getUrl url)}})
 {{/ifDisplayIndexItem}}
 {{/each}}
 {{getNewLine}}

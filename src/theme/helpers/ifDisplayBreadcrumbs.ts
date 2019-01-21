@@ -5,5 +5,7 @@ import { getMarkdownEngine } from '../utils';
  * @param opts
  */
 export function ifDisplayBreadcrumbs(opts: any) {
-  return getMarkdownEngine() === 'gitbook' ? opts.inverse(this) : opts.fn(this);
+    return getMarkdownEngine() === 'gitbook' || getMarkdownEngine() === 'githubWiki'
+        ? opts.inverse(this)
+        : opts.fn(this);
 }

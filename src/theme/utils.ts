@@ -8,9 +8,9 @@ import { getOptions, getResources } from './props';
  * Returns the specified markdown engine
  */
 export function getMarkdownEngine() {
-  const options = getOptions();
-  const specifiedEngine = options.mdEngine || options.mdFlavour || 'github';
-  return specifiedEngine as 'github' | 'bitbucket' | 'gitbook';
+    const options = getOptions();
+    const specifiedEngine = options.markdownTarget || options.mdEngine || 'github';
+    return specifiedEngine as 'github' | 'githubWiki' | 'bitbucket' | 'gitbook';
 }
 
 /**
@@ -19,10 +19,10 @@ export function getMarkdownEngine() {
  * @param data
  */
 export function compilePartial(partialName: string, data: {}) {
-  const template = getResources()
-    .partials.getResource(partialName)
-    .getTemplate();
-  return template(data);
+    const template = getResources()
+        .partials.getResource(partialName)
+        .getTemplate();
+    return template(data);
 }
 
 /**
@@ -31,10 +31,10 @@ export function compilePartial(partialName: string, data: {}) {
  * @param data
  */
 export function compileTemplate(templateName: string, data: {}) {
-  const template = getResources()
-    .templates.getResource(templateName)
-    .getTemplate();
-  return template(data);
+    const template = getResources()
+        .templates.getResource(templateName)
+        .getTemplate();
+    return template(data);
 }
 
 /**
@@ -42,8 +42,8 @@ export function compileTemplate(templateName: string, data: {}) {
  * @param ref
  */
 export function getAnchorRef(ref: string) {
-  return ref
-    .replace(/_|\/|\.| /g, '-')
-    .replace(/"/g, '')
-    .replace(/ /g, '-');
+    return ref
+        .replace(/_|\/|\.| /g, '-')
+        .replace(/"/g, '')
+        .replace(/ /g, '-');
 }
