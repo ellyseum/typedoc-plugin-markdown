@@ -8,7 +8,10 @@ import { compilePartial, getMarkdownEngine } from '../utils';
  * @param group
  * @param parent
  */
-export function compileGroup(group: ReflectionGroup, parentKind: ReflectionKind) {
+export function compileGroup(
+    group: ReflectionGroup,
+    parentKind: ReflectionKind,
+) {
     const options = getOptions();
 
     let md = '';
@@ -19,9 +22,8 @@ export function compileGroup(group: ReflectionGroup, parentKind: ReflectionKind)
                 group.kind === ReflectionKind.Module) ||
             group.kind === ReflectionKind.Class
         ) {
-            console.log(group.title);
             md = '# ' + group.title + '\n\n';
-            group.children.forEach(child => {
+            group.children.forEach((child) => {
                 md =
                     md +
                     compilePartial('reflection.hbs', {

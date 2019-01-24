@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "copy:static": "copyfiles --up 1 ./src/**/*.hbs ./dist/",
-    "copy:plugin": "copyfiles package.json './dist/**/*' node_modules/typedoc-plugin-markdown/",
+    "copy:plugin": "copyfiles package.json ./dist/**/*.* node_modules/typedoc-plugin-markdown/",
     "examples": "rm -rf examples/out && typedoc ./examples/src --out ./examples/out --theme markdown --gitRevision master --readme none --media test/src/media/ --includes test/src/inc/",
     "html": "typedoc ./test/src --out test/out/html",
     "lint": "tslint --project ./src/tsconfig.json",
@@ -41,6 +41,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.12",
     "copyfiles": "^2.1.0",
+    "cross-spawn": "^6.0.5",
     "jest": "^23.6.0",
     "ts-jest": "^23.10.5",
     "tslint": "^5.12.1",

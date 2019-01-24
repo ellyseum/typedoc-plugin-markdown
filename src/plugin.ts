@@ -1,9 +1,10 @@
-import * as fs from 'fs-extra';
 import * as path from 'path';
-import { Component, ConverterComponent } from 'typedoc/dist/lib/converter/components';
+import {
+    Component,
+    ConverterComponent,
+} from 'typedoc/dist/lib/converter/components';
 import { Context } from 'typedoc/dist/lib/converter/context';
 import { Converter } from 'typedoc/dist/lib/converter/converter';
-import { DeclarationReflection } from 'typedoc/dist/lib/models';
 import { Reflection } from 'typedoc/dist/lib/models/reflections/abstract';
 import { PageEvent } from 'typedoc/dist/lib/output/events';
 import { OptionsReadMode } from 'typedoc/dist/lib/utils/options';
@@ -55,8 +56,11 @@ export class MarkdownPlugin extends ConverterComponent {
      * Remove duplicate lines to tidy up output
      */
     private onPageEnd(page: PageEvent) {
-        page.contents = page.contents ? page.contents.replace(/\n{3,}/g, '\n\n') : '';
+        page.contents = page.contents
+            ? page.contents.replace(/[\r?\n]{3,}/g, '\n\n')
+            : '';
 
+        /*
         function replacer(key: any, value: any) {
             if (
                 key === 'parent' ||
@@ -79,7 +83,7 @@ export class MarkdownPlugin extends ConverterComponent {
             `./test/out/${model.name}.json`,
             JSON.stringify(model, replacer),
         );
-        // }
+        // }*/
     }
 
     /**
