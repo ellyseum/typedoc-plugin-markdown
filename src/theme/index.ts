@@ -29,20 +29,15 @@ export class MarkdownTheme extends DefaultTheme {
         const mapping = DefaultTheme.getMapping(reflection);
         // console.log(reflection);
         if (mapping) {
-            if (
-                !reflection.url ||
-                !DefaultTheme.URL_PREFIX.test(reflection.url)
-            ) {
+            if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
                 const url =
                     getMarkdownEngine() === 'githubWiki'
-                        ? [
-                              MarkdownTheme.getUrl(reflection, undefined, '-') +
-                                  '.md',
-                          ].join('/')
+                        ? [MarkdownTheme.getUrl(reflection, undefined, '-') + '.md'].join(
+                              '/',
+                          )
                         : [
                               mapping.directory,
-                              MarkdownTheme.getUrl(reflection, undefined, '.') +
-                                  '.md',
+                              MarkdownTheme.getUrl(reflection, undefined, '.') + '.md',
                           ].join('/');
                 //  jsonfile.writeFileSync(`./out/${getMarkdownEngine()}/${url}`, reflection);
 
@@ -54,10 +49,7 @@ export class MarkdownTheme extends DefaultTheme {
                 for (const key in reflection.children) {
                     if (reflection.children.hasOwnProperty(key)) {
                         const child = reflection.children[key];
-                        if (
-                            mapping.isLeaf ||
-                            getMarkdownEngine() === 'githubWiki'
-                        ) {
+                        if (mapping.isLeaf || getMarkdownEngine() === 'githubWiki') {
                             MarkdownTheme.applyAnchorUrl(child, reflection);
                         } else {
                             MarkdownTheme.buildUrls(child, urls);
@@ -79,10 +71,7 @@ export class MarkdownTheme extends DefaultTheme {
      * @param reflection  The reflection an anchor url should be created for.
      * @param container   The nearest reflection having an own document.
      */
-    public static applyAnchorUrl(
-        reflection: Reflection,
-        container: Reflection,
-    ) {
+    public static applyAnchorUrl(reflection: Reflection, container: Reflection) {
         if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
             let anchor = MarkdownTheme.getUrl(reflection, container, '.');
 
@@ -97,7 +86,7 @@ export class MarkdownTheme extends DefaultTheme {
                 if (reflection.kind === ReflectionKind.ObjectLiteral) {
                     anchorPrefix += 'object-literal-';
                 }
-                reflection.flags.forEach((flag) => {
+                reflection.flags.forEach(flag => {
                     anchorPrefix += `${flag}-`;
                 });
                 const prefixRef = getAnchorRef(anchorPrefix);
@@ -106,9 +95,7 @@ export class MarkdownTheme extends DefaultTheme {
             }
 
             reflection.url =
-                (container.url !== undefined ? container.url : '') +
-                '#' +
-                anchorRef;
+                (container.url !== undefined ? container.url : '') + '#' + anchorRef;
             reflection.anchor = anchor;
             reflection.hasOwnDocument = false;
         }
@@ -195,10 +182,8 @@ export class MarkdownTheme extends DefaultTheme {
                     ...entryPoint,
                     ...{
                         displayReadme:
-                            this.application.options.getValue('readme') !==
-                            'none',
+                            this.application.options.getValue('readme') !== 'none',
                         isIndex: true,
-                        baseHeadingLevel: '##',
                     },
                 },
                 'reflection.hbs',
@@ -216,19 +201,15 @@ export class MarkdownTheme extends DefaultTheme {
         if (getMarkdownEngine() === 'gitbook') {
             const navigationChildren = this.getNavigation(project).children;
             if (navigationChildren) {
-                const navigation = navigationChildren.map((navigationItem) => {
+                const navigation = navigationChildren.map(navigationItem => {
                     const dedicatedUrls = navigationItem.dedicatedUrls
-                        ? navigationItem.dedicatedUrls.map((url) => {
+                        ? navigationItem.dedicatedUrls.map(url => {
                               return {
                                   title: () => {
-                                      const urlMapping = urlMappings.find(
-                                          (item) => {
-                                              return item.url === url;
-                                          },
-                                      );
-                                      return urlMapping
-                                          ? urlMapping.model.name
-                                          : null;
+                                      const urlMapping = urlMappings.find(item => {
+                                          return item.url === url;
+                                      });
+                                      return urlMapping ? urlMapping.model.name : null;
                                   },
                                   url,
                               };
