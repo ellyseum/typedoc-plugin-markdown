@@ -23,7 +23,6 @@ export interface INameInterface {
   getName(): string;
 }
 
-
 /**
  * This is a simple interface.
  */
@@ -36,7 +35,6 @@ export interface IPrintInterface {
   print(value: string): void;
 }
 
-
 /**
  * This is a interface inheriting from two other interfaces.
  */
@@ -47,13 +45,13 @@ export interface IPrintNameInterface extends INameInterface, IPrintInterface {
   printName(): void;
 }
 
-
 /**
  * This is a simple base class.
  *
  * [[include:class-example.md]]
  */
 export abstract class BaseClass implements INameInterface {
+  [index: number]: string;
   /**
    * This is a simple public member.
    */
@@ -76,7 +74,6 @@ export abstract class BaseClass implements INameInterface {
    * This is an instance member of an internal class.
    */
   private internalClass: InternalClass<keyof BaseClass>;
-
 
   constructor(name: string);
   constructor(source: BaseClass);
@@ -106,7 +103,6 @@ export abstract class BaseClass implements INameInterface {
     return this.name;
   }
 
-
   /**
    * This is a simple static member function.
    *
@@ -118,7 +114,6 @@ export abstract class BaseClass implements INameInterface {
   static getName(): string {
     return 'A name';
   }
-
 
   /**
    * This is a simple member function.
@@ -132,7 +127,6 @@ export abstract class BaseClass implements INameInterface {
     this.checkName();
   }
 
-
   /**
    * This is a simple fat arrow function.
    *
@@ -140,9 +134,7 @@ export abstract class BaseClass implements INameInterface {
    * @param param2 The second parameter needed by this function.
    * @see https://github.com/sebastian-lenz/typedoc/issues/37
    */
-  public arrowFunction = (param2: string, param1: number): void => {
-  };
-
+  public arrowFunction = (param2: string, param1: number): void => {};
 
   /**
    * This is a private function.
@@ -150,7 +142,6 @@ export abstract class BaseClass implements INameInterface {
   private checkName() {
     return true;
   }
-
 
   /**
    * This is a static function.
@@ -163,12 +154,16 @@ export abstract class BaseClass implements INameInterface {
     return BaseClass.instance;
   }
 
-
   /**
    * @see https://github.com/sebastian-lenz/typedoc/issues/42
    */
-  public static caTest(originalValues: BaseClass, newRecord: any, fieldNames: string[], mandatoryFields: string[]): string {
-    var returnval = "";
+  public static caTest(
+    originalValues: BaseClass,
+    newRecord: any,
+    fieldNames: string[],
+    mandatoryFields: string[],
+  ): string {
+    var returnval = '';
     var updates: string[] = [];
     var allFields: string[] = fieldNames;
     for (var j = 0; j < allFields.length; j++) {
@@ -183,11 +178,8 @@ export abstract class BaseClass implements INameInterface {
 /**
  * This is an internal class, it is not exported.
  */
-class InternalClass<TTT extends keyof BaseClass>
-{
-  constructor(options: { name: string }) {
-
-  }
+class InternalClass<TTT extends keyof BaseClass> {
+  constructor(options: { name: string }) {}
 }
 
 /**
@@ -202,7 +194,7 @@ export class SubClassA extends BaseClass implements IPrintNameInterface {
   /**
    * This is a simple interface function.
    */
-  public print(value: string): void { }
+  public print(value: string): void {}
 
   /**
    * @inheritdoc
@@ -249,9 +241,7 @@ export class SubClassA extends BaseClass implements IPrintNameInterface {
     this.name = value;
   }
 
-  public abstractMethod(): void {
-
-  }
+  public abstractMethod(): void {}
 }
 
 /**
@@ -266,12 +256,9 @@ export class SubClassB extends BaseClass {
     super(name);
   }
 
-  abstractMethod(): void {
+  abstractMethod(): void {}
 
-  }
-
-  doSomething(value: [string, SubClassA, SubClassB]) {
-  }
+  doSomething(value: [string, SubClassA, SubClassB]) {}
 
   /**
    * Description for doOtherThings.
@@ -279,8 +266,7 @@ export class SubClassB extends BaseClass {
    * @param value Description for value
    * @param secondValue Description with | in description
    */
-  doOtherThings(value: string | number | SubClassA, secondValue?: SubClassA) {
-  }
+  doOtherThings(value: string | number | SubClassA, secondValue?: SubClassA) {}
 }
 
 /**
@@ -288,8 +274,7 @@ export class SubClassB extends BaseClass {
  *
  * @param T  This a type parameter.
  */
-export class GenericClass<T extends BaseClass>
-{
+export class GenericClass<T extends BaseClass> {
   public value: T;
 
   /**
@@ -301,8 +286,13 @@ export class GenericClass<T extends BaseClass>
    * @param p4 Public implicit any property
    * @param p5 Readonly property
    */
-  constructor(p1, protected p2: T, public p3: number, private p4: number, readonly p5: string) {
-  }
+  constructor(
+    p1,
+    protected p2: T,
+    public p3: number,
+    private p4: number,
+    readonly p5: string,
+  ) {}
 
   /**
    * @param value [[getValue]] is the counterpart.
@@ -319,8 +309,6 @@ export class GenericClass<T extends BaseClass>
 /**
  * This a non generic class derived from a [[GenericClass|generic class]].
  */
-export class NonGenericClass extends GenericClass<SubClassB> {
+export class NonGenericClass extends GenericClass<SubClassB> {}
 
-}
-
- /* tslint:enable */
+/* tslint:enable */

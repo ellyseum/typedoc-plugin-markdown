@@ -47,3 +47,7 @@ export function getAnchorRef(ref: string) {
     .replace(/"/g, '')
     .replace(/ /g, '-');
 }
+
+export function formatContents(contents: string) {
+  return contents ? contents.replace(/[\r?\n]{3,}/g, '\n\n') : '';
+}

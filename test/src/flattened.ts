@@ -1,4 +1,3 @@
-
 /**
  * Examples taken from the TypeDoc 'flattened' examples directory
  * (https://github.com/TypeStrong/typedoc/blob/master/examples/basic/src/flattened.ts)
@@ -41,7 +40,7 @@ class flattenedClass {
    * @param indexed.test   A property of the index signature instance.
    */
   indexed: {
-    [index: number]: { name: string; value?: number; };
+    [index: number]: { name: string; value?: number };
     test: string;
   };
 
@@ -63,7 +62,6 @@ class flattenedClass {
     (value: number): flattenedClass;
   };
 
-
   /**
    * A constructor that accepts an option object defined inline.
    *
@@ -79,9 +77,8 @@ class flattenedClass {
     moreOptions?: {
       moreValues: number;
     };
-  }) { }
+  }) {}
 }
-
 
 /**
  * A function that has a parameter that requires a typed function callback.
@@ -90,8 +87,7 @@ class flattenedClass {
  * @param callback.param          A parameter of the typed function callback.
  * @param callback.optionalParam  An optional parameter of the typed function callback.
  */
-function flattenedCallback(callback: (param: number, optionalParam?: string) => string) { }
-
+function flattenedCallback(callback: (param: number, optionalParam?: string) => string) {}
 
 /**
  * A function that accepts an option object defined inline.
@@ -109,8 +105,7 @@ function flattenedParameter(options: {
   moreOptions?: {
     moreValues: number;
   };
-}) { }
-
+}) {}
 
 /**
  * A function that accepts an index signature parameter.
@@ -120,8 +115,20 @@ function flattenedParameter(options: {
  * @param indexed.test   A property of the index signature instance.
  */
 function flattenedIndexSignature(indexed: {
-  [index: number]: { name: string; value?: number; };
+  [index: number]: { name: string; value?: number };
   test: string;
-}) { }
+}) {}
+
+interface Foo {
+  [key: string]: number;
+  x: number;
+  y: number;
+}
+/** Error */
+interface Bar {
+  [key: string]: number;
+  x: number;
+  y: number; // ERROR: Property `y` must be of type number
+}
 
 /* tslint:enable */
