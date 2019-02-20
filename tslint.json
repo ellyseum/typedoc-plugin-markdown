@@ -12,6 +12,7 @@
     "no-unused-expression": [false],
     "interface-name": [false],
     "object-literal-sort-keys": [false],
-    "arrow-parens": [false]
+    "arrow-parens": [false],
+    "member-ordering": [false]
   }
 }

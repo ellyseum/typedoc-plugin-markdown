@@ -2,6 +2,5 @@
   "theme": "markdown",
   "includes": "test/src/inc/",
   "media": "test/src/media/",
-  "gitRevision": "master",
-  "readme": "none"
+  "gitRevision": "master"
 }
