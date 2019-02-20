@@ -34,7 +34,6 @@ fs.readdirSync('./dist/theme/partials').forEach(file => {
 global.compileTemplate = (name, context, type = 'partial') => {
   const hbs = fs.readFileSync(path.resolve(__dirname, `../src/theme/${type}s/${name}`));
   const output = formatContents(Handlebars.compile(hbs.toString())(context));
-  log(name, output);
   return output;
 };
 

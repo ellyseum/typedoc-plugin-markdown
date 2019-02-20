@@ -1,8 +1,4 @@
-/**
- * Returns the member symbol
- * @param kindString
- */
-export function getMemberSymbol(kindString: string) {
+export function memberSymbol(kindString: string) {
   let symbol = '';
   switch (kindString) {
     case 'Constructor signature':

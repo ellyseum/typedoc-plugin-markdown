@@ -1,3 +1,5 @@
+{{compileFixture 'indexsignature' indexSignature}}
+
 [{{#each indexSignature.parameters}}{{name}}: {{#with type}}{{>type}}{{/with}}{{/each}}]:
 
 {{#with indexSignature.type}}{{>type}}{{/with}}

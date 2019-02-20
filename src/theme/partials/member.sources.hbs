@@ -12,6 +12,6 @@
 {{~/if~}}
 {{#if sources}}
 {{#each sources}}
-*{{getSourceFile fileName line url}}*
+*{{getSourceFile fileName line url @root.settings}}*
 {{/each}}
 {{/if}}
